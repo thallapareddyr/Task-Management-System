@@ -5,7 +5,7 @@ This Task Management System is a web application built using Django that facilit
 ## Features
 
 - **User Management:**
-  - Registration and authentication for regular users and administrators.
+  - Registration for regular users and administrators.
   - Two user types: regular users and administrators with varying access rights.
 
 - **Task Management:**
