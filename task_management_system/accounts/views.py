@@ -2,6 +2,9 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
+
+from tasks.models import Tasks
+from tasks.helpers import get_user_tasks
 from .forms import CreateUserForm
 from django.contrib.auth.decorators import login_required
 
@@ -51,5 +54,8 @@ def logoutUser(request):
 
 @login_required(login_url="login")
 def homePage(request):
-    context = {}
+    user_tasks = get_user_tasks(request)
+    context = {
+        'user_tasks': user_tasks
+    }
     return render(request, "accounts/home.html", context)

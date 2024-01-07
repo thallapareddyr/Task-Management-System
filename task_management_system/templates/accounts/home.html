@@ -10,7 +10,79 @@
     </ul>
 {% endif %}
 <h1>HOME</h1>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#taskModal" id="createTaskBtn">
+    <a href="{% url 'create_task' %}">  Create Task</a>
+</button>
+
+
 
 <span>Hello, {{request.user}}</span>
 <span><a href="{% url 'logout' %}">Logout</a></span>
+
+<h3>Tasks Created By You</h3>
+<table class="table table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Created On</th>
+            <th>Due On</th>
+            <th>Created By</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <!-- Add more headers as needed -->
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in user_tasks %}
+        <tr id="{{ task.id }}">
+            <td>{{ task.title }}</td>
+            <td>{{ task.description }}</td>
+            <td>{{ task.category }}</td>
+            <td>{{ task.created_on }}</td>
+            <td>{{ task.due_on }}</td>
+            <td>{{ task.created_by }}</td>
+            <td><i class="bi bi-pencil-square"></i></td>
+            <td><i class="bi bi-trash"></i></td>
+            <td><i class="bi bi-chevron-expand"></i></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br>
+<br>
+<h3>Tasks assigned to you</h3>
+<table class="table table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Created On</th>
+            <th>Due On</th>
+            <th>Created By</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <!-- Add more headers as needed -->
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in user_tasks %}
+        <tr>
+            <td>{{ task.title }}</td>
+            <td>{{ task.description }}</td>
+            <td>{{ task.category }}</td>
+            <td>{{ task.created_on }}</td>
+            <td>{{ task.due_on }}</td>
+            <td>{{ task.created_by }}</td>
+            <td><i class="bi bi-pencil-square"></i></td>
+            <td><i class="bi bi-trash"></i></td>
+            <td><i class="bi bi-chevron-expand"></i></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock content%}
