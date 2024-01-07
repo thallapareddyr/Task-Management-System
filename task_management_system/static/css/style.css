@@ -2,3 +2,6 @@ a{
     list-style-type: none;
     color: white;
 }
+td i{
+    cursor: pointer;
+}
