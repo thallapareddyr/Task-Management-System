@@ -6,6 +6,7 @@ def get_user_tasks(user_instance):
     formatted_tasks = []
     for task in user_tasks:
         formatted_task = {
+            "id": task.id,
             'title': task.title,
             'description': task.description,
             'created_on': task.created_on.strftime('%Y-%m-%d %H:%M:%S'),  # Format as needed

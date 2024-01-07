@@ -35,18 +35,18 @@
             <!-- Add more headers as needed -->
         </tr>
     </thead>
-    <tbody>
+    <tbody class="task-created-by-user">
         {% for task in user_tasks %}
         <tr id="{{ task.id }}">
-            <td>{{ task.title }}</td>
-            <td>{{ task.description }}</td>
-            <td>{{ task.category }}</td>
-            <td>{{ task.created_on }}</td>
-            <td>{{ task.due_on }}</td>
-            <td>{{ task.created_by }}</td>
-            <td><i class="bi bi-pencil-square"></i></td>
-            <td><i class="bi bi-trash"></i></td>
-            <td><i class="bi bi-chevron-expand"></i></td>
+            <td class="task-title">{{ task.title }}</td>
+            <td class="task-description">{{ task.description }}</td>
+            <td class="task-category">{{ task.category }}</td>
+            <td class="task-created_on">{{ task.created_on }}</td>
+            <td class="task-due_on">{{ task.due_on }}</td>
+            <td class="task-created_by">{{ task.created_by }}</td>
+            <td><i class="bi bi-pencil-square edit-task"></i></td>
+            <td><i class="bi bi-trash delete-task"></i></td>
+            <td><i class="bi bi-chevron-expand expand-task"></i></td>
         </tr>
         {% endfor %}
     </tbody>
@@ -54,7 +54,7 @@
 <br>
 <br>
 <h3>Tasks assigned to you</h3>
-<table class="table table-bordered">
+<!-- <table class="table table-bordered">
     <thead class="thead-dark">
         <tr>
             <th>Title</th>
@@ -67,7 +67,7 @@
             <th></th>
             <th></th>
             <!-- Add more headers as needed -->
-        </tr>
+        <!-- </tr>
     </thead>
     <tbody>
         {% for task in user_tasks %}
@@ -84,5 +84,44 @@
         </tr>
         {% endfor %}
     </tbody>
-</table>
+</table> --> -->
+<!-- Edit Task Modal -->
+<div class="modal fade" id="editTaskModal" tabindex="-1" role="dialog" aria-labelledby="editTaskModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editTaskModalLabel">Edit Task</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editTaskForm">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="editTitle">Title</label>
+                        <input type="text" class="form-control" id="editTitle" name="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="editDescription">Description</label>
+                        <input type="text" class="form-control" id="editDescription" name="description">
+                    </div>
+                    <div class="form-group">
+                        <label for="editCategory">Task Category</label>
+                        <select class="form-control" id="editCategory" name="task_category">
+                            <!-- Populate options dynamically via JavaScript -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editDueOn">Due On</label>
+                        <input type="datetime-local" class="form-control" id="editDueOn" name="due_on">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock content%}
