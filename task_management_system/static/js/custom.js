@@ -5,7 +5,7 @@ $(document).ready(function(){
     taskDelete();
     assignTask();
     show_and_hide();
-    save_user_task();
+    save_task();
 });
 var taskId = 0;
 // Fetch task categories and populate the dropdown
@@ -55,6 +55,27 @@ function taskDelete(){
                 console.error('Error fetching task details: ', error);
             }
         });
+})
+
+$(document).on('click', '.delete-task-assigned-to-other-user', function() {
+    taskID = $(this).closest('tr').attr('id'); // Get the task ID from the row
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    var task_assignment_id = $('.task_assignment_id').text()
+
+
+    $.ajax({
+        url: `/home/${task_assignment_id}/delete_task_assigned_to_user`, // Replace with your endpoint to fetch task details
+        method: 'DELETE',
+        headers: { 'X-CSRFToken': csrftoken }, // Include the CSRF token in the headers
+
+        success: function(response) {
+            window.location.href = '/home';
+
+        },
+        error: function(error) {
+            console.error('Error fetching task details: ', error);
+        }
+    });
 })
 }
 
@@ -144,6 +165,21 @@ function show_and_hide(){
             $(".edit-task-status").removeClass('hidden');
         }
     });
+    $(document).on('click', '.edit-task-assigned-to-other-user,#cancel-user-task', function() {
+        console.log("edit users task clicked")
+        var element = $('.tasks-assigned-to-other-user-data .task-dueon')
+        if (element.hasClass('hidden')) {
+            element.removeClass('hidden');
+            $('.edit-task-assigned-to-other-user').removeClass('hidden')
+            $('.user-task-edited ').addClass('hidden')
+            $(".edit-task-dueon").addClass('hidden');
+        } else {
+            $('.edit-task-assigned-to-other-user').addClass('hidden')
+            element.addClass('hidden');
+            $('.user-task-edited').removeClass('hidden')
+            $(".edit-task-dueon").removeClass('hidden');
+        }
+    });
     
 }
 
@@ -170,7 +206,7 @@ function assignTask(){
     });
 }
 
-function save_user_task(){
+function save_task(){
     $(document).on('click', '#save-user-task', function() {
         
         taskID = $(this).closest('tr').attr('id'); 
@@ -183,6 +219,29 @@ function save_user_task(){
             url: `/home/${taskID}/update_user_task/`, // Replace with your endpoint to update the task
             method: 'POST',
             data: { 'task_status': task_status },
+            headers: { 'X-CSRFToken': csrftoken }, // Include the CSRF token in the headers
+            success: function(response) {
+                window.location.href = '/home';
+                // Handle success, e.g., update the table with the new data
+                // You may need to refresh the task table or update the specific row
+            },
+            error: function(error) {
+                console.error('Error updating task: ', error);
+            }
+        });
+    });
+    $(document).on('click', '#save-other-user-task', function() {
+        
+        taskID = $(this).closest('tr').attr('id'); 
+        due_on = $(this).closest('tr').find('#due_on').val();
+        console.log(due_on)
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+                // Submit the form data via AJAX to update the task
+        $.ajax({
+            url: `/home/${taskID}/update_other_user_task/`, // Replace with your endpoint to update the task
+            method: 'POST',
+            data: { 'due_on': due_on },
             headers: { 'X-CSRFToken': csrftoken }, // Include the CSRF token in the headers
             success: function(response) {
                 window.location.href = '/home';
