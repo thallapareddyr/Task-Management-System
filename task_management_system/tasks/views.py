@@ -65,8 +65,6 @@ def delete_task(request, task_id):
         messages.error(request, 'Task Delete Failed.')
         return JsonResponse({'success': False})  # Respond with failure
 
-    return JsonResponse({'success': False})  
-
 
 
 def assign_task(request):
@@ -97,3 +95,31 @@ def update_user_task(request, task_id, ):
 
 
     return JsonResponse({'success': False})  # If not a POST request, respond with failure
+
+
+def update_other_user_task(request, task_id, ):
+    task = get_object_or_404(TaskAssignments, task_id=task_id)
+    print(f"{task=}")
+    
+    if request.method == 'POST':
+        due_on = request.POST.get('due_on')
+        print(f"{due_on=}")
+        task.due_on = due_on
+        task.save()
+        messages.success(request, 'Task Updated successfully.')
+
+
+    return JsonResponse({'success': False})  # If not a POST request, respond with failure
+
+
+def delete_task_assigned_to_user(request, task_id):
+    task = get_object_or_404(TaskAssignments, id=task_id)
+    
+    if request.method == 'DELETE':
+        task.delete()
+        
+        messages.success(request, 'Task Assigned deleted successfully.')
+        return JsonResponse({'success': True})  # Respond with success
+    else:
+        messages.error(request, 'Task Assigned Delete Failed.')
+        return JsonResponse({'success': False})  # Respond with failure

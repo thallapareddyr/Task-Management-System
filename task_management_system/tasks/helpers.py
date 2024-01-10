@@ -21,7 +21,7 @@ def tasks_assigned_to_user(user_instance):
     assigned_tasks = TaskAssignments.objects.filter(assigned_to_id=user_instance.user).select_related(
         'task_id__task_category__name', 'task_id__created_by', 'assigned_to', 'assigned_by', 'status__status'
     ).values(
-        'task_id', 'task_id__title', 'task_id__description', 'created_on', 'task_id__created_by__username',
+        'id','task_id', 'task_id__title', 'task_id__description', 'created_on', 'task_id__created_by__username',
         'task_id__task_category__name', 'assigned_to__username', 'status', 'due_on'
     )
     print(f'{assigned_tasks=}')
@@ -32,7 +32,7 @@ def tasks_assigned_by_current_user(request):
     assigned_tasks = TaskAssignments.objects.filter(assigned_by_id=current_user_id).select_related(
         'task_id__task_category', 'task_id__created_by', 'assigned_to', 'assigned_by'
     ).values(
-        'task_id', 'task_id__title', 'task_id__description', 'created_on', 'task_id__created_by__username',
+        'id','task_id', 'task_id__title', 'task_id__description', 'created_on', 'task_id__created_by__username',
         'task_id__task_category__name', 'assigned_to__username', 'status', 'due_on'
     )
     print(f'Other user {assigned_tasks=}')

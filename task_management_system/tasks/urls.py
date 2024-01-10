@@ -9,6 +9,8 @@ urlpatterns = [
     path('get_task_categories/', views.get_task_categories, name='get_task_categories'),
     path('assign_task/', views.assign_task, name='assign_task'),
     path('<int:task_id>/update_user_task/', views.update_user_task, name='update_user_task'),
+    path('<int:task_id>/update_other_user_task/', views.update_other_user_task, name='update_other_user_task'),
+    path('<int:task_id>/delete_task_assigned_to_user/', views.delete_task_assigned_to_user, name='delete_task_assigned_to_user'),
 
 
 ]
