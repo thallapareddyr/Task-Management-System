@@ -1,9 +1,10 @@
 from django.forms import model_to_dict
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
-from .forms import TaskForm
+from .forms import TaskAssignmentForm, TaskForm
 from django.contrib import messages
 from .models import *
+from django.utils.dateparse import parse_datetime
 
 def create_task(request):
     if request.method == "POST":
@@ -65,3 +66,34 @@ def delete_task(request, task_id):
         return JsonResponse({'success': False})  # Respond with failure
 
     return JsonResponse({'success': False})  
+
+
+
+def assign_task(request):
+    if request.method == 'POST':
+        form = TaskAssignmentForm(request.POST)
+
+        if form.is_valid():
+            task_assignment = form.save(commit=False)
+            task_assignment.assigned_by = request.user  # Set the assigned_by user to the current logged-in user
+            task_assignment.save()
+            return JsonResponse({'message': 'Task assigned successfully'})
+        else:
+            print("Form is invalid!")
+            print(form.errors)
+            errors = form.errors.as_json()
+            return JsonResponse({'errors': errors}, status=400)
+        
+def update_user_task(request, task_id, ):
+    task = get_object_or_404(TaskAssignments, task_id=task_id)
+    print(f"{task=}")
+    
+    if request.method == 'POST':
+        task_status = request.POST.get('task_status')
+        print(f"{task_status=}")
+        task.status = task_status
+        task.save()
+        messages.success(request, 'Task Updated successfully.')
+
+
+    return JsonResponse({'success': False})  # If not a POST request, respond with failure

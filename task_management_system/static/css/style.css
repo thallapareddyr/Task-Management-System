@@ -5,3 +5,14 @@ a{
 td i{
     cursor: pointer;
 }
+
+.hidden{
+    display: none;
+}
+
+.each-task-category-heading{
+    border: 1.5px solid;
+    margin: 3px;
+    padding: 5px;
+    cursor: pointer;
+}
