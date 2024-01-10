@@ -1,14 +1,10 @@
 from django import forms
-from .models import Tasks
+from .models import *
 
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Tasks
-        fields = ['title', 'description', 'due_on', 'task_category']
-        widgets = {
-            'due_on': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-            # You might need to handle formatting or set specific date/time restrictions here
-        }
+        fields = ['title', 'description', 'task_category']
 
     def __init__(self, *args, **kwargs):
         super(TaskForm, self).__init__(*args, **kwargs)
@@ -17,3 +13,14 @@ class TaskForm(forms.ModelForm):
         for field_name in exclude_fields:
             if field_name in self.fields:
                 del self.fields[field_name]
+
+class TaskAssignmentForm(forms.ModelForm):
+    status = forms.ChoiceField(choices=TaskAssignments.STATUS_CHOICES)
+
+    class Meta:
+        model = TaskAssignments
+        fields = ['task_id', 'assigned_to', 'status', 'due_on']
+        widgets = {
+            'due_on': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            # You might need to handle formatting or set specific date/time restrictions here
+        }

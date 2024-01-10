@@ -3,7 +3,9 @@ $(document).ready(function(){
     console.log("JS Started")
     taskEdit();
     taskDelete();
-
+    assignTask();
+    show_and_hide();
+    save_user_task();
 });
 var taskId = 0;
 // Fetch task categories and populate the dropdown
@@ -33,6 +35,8 @@ function fetchTaskCategories() {
         }
     });
 }
+
+
 function taskDelete(){
     $(document).on('click', '.delete-task', function() {
         taskID = $(this).closest('tr').attr('id'); // Get the task ID from the row
@@ -98,4 +102,96 @@ $('#editTaskForm').submit(function(event) {
         }
     });
 });
+}
+
+function show_and_hide(){
+    $(document).on('click', '#tasks-assigned-to-user', function() {
+        var element = $('.tasks-assigned-to-user-data')
+        if (element.hasClass('hidden')) {
+            element.removeClass('hidden');
+        } else {
+            element.addClass('hidden');
+        }
+    });
+    $(document).on('click', '#tasks-assigned-to-other-user', function() {
+        var element = $('.tasks-assigned-to-other-user-data')
+        if (element.hasClass('hidden')) {
+            element.removeClass('hidden');
+        } else {
+            element.addClass('hidden');
+        }
+    });
+    $(document).on('click', '#assign-task-btn', function() {
+        var element = $('.assign-task-form')
+        if (element.hasClass('hidden')) {
+            element.removeClass('hidden');
+        } else {
+            element.addClass('hidden');
+        }
+    });
+    $(document).on('click', '.edit-task-assigned-to-user,#cancel-user-task', function() {
+        console.log("edit users task clicked")
+        var element = $('.users-task-status')
+        if (element.hasClass('hidden')) {
+            element.removeClass('hidden');
+            $('.edit-task-assigned-to-user').removeClass('hidden')
+            $('.user-task-edited ').addClass('hidden')
+            $(".edit-task-status").addClass('hidden');
+        } else {
+            $('.edit-task-assigned-to-user').addClass('hidden')
+            element.addClass('hidden');
+            $('.user-task-edited').removeClass('hidden')
+            $(".edit-task-status").removeClass('hidden');
+        }
+    });
+    
+}
+
+
+function assignTask(){
+    $('#assignTaskForm').submit(function(event) {
+        event.preventDefault();
+        var formData = $(this).serialize();
+        // Submit the form data via AJAX to update the task
+        $.ajax({
+            url: `/home/assign_task/`, // Replace with your endpoint to update the task
+            method: 'POST',
+            data: formData,
+            success: function(response) {
+                $('#editTaskModal').modal('hide');
+                window.location.href = '/home';
+                // Handle success, e.g., update the table with the new data
+                // You may need to refresh the task table or update the specific row
+            },
+            error: function(error) {
+                console.error('Error updating task: ', error);
+            }
+        });
+    });
+}
+
+function save_user_task(){
+    $(document).on('click', '#save-user-task', function() {
+        
+        taskID = $(this).closest('tr').attr('id'); 
+        task_status = $(this).closest('tr').find('#task-statuses').val();
+        console.log(task_status)
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+                // Submit the form data via AJAX to update the task
+        $.ajax({
+            url: `/home/${taskID}/update_user_task/`, // Replace with your endpoint to update the task
+            method: 'POST',
+            data: { 'task_status': task_status },
+            headers: { 'X-CSRFToken': csrftoken }, // Include the CSRF token in the headers
+            success: function(response) {
+                window.location.href = '/home';
+                // Handle success, e.g., update the table with the new data
+                // You may need to refresh the task table or update the specific row
+            },
+            error: function(error) {
+                console.error('Error updating task: ', error);
+            }
+        });
+    });
 }
