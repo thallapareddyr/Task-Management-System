@@ -1,5 +1,7 @@
 a{
     list-style-type: none;
+}
+button a{
     color: white;
 }
 td i{

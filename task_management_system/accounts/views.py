@@ -70,6 +70,9 @@ def homePage(request):
     }
     return render(request, "accounts/home.html", context)
 
+@login_required(login_url="login")
+def defaultHomePage(request):
+    return redirect("home")
 
 @login_required(login_url="login")
 def get_users(request):
