@@ -32,7 +32,7 @@ def task_details(request, task_id):
     task_details = {
         'title': task.title,
         'description': task.description,
-        'due_on': task.due_on.strftime("%Y-%m-%dT%H:%M"),  # Format date as ISO 8601
+        # 'due_on': task.due_on.strftime("%Y-%m-%dT%H:%M"),  # Format date as ISO 8601
         # Add other fields as needed
     }
 
