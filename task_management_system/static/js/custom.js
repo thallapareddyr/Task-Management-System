@@ -150,6 +150,7 @@ function show_and_hide(){
             element.addClass('hidden');
         }
     });
+    
     $(document).on('click', '.edit-task-assigned-to-user,#cancel-user-task', function() {
         console.log("edit users task clicked")
         var element = $('.users-task-status')
@@ -165,18 +166,18 @@ function show_and_hide(){
             $(".edit-task-status").removeClass('hidden');
         }
     });
-    $(document).on('click', '.edit-task-assigned-to-other-user,#cancel-user-task', function() {
-        console.log("edit users task clicked")
+    $(document).on('click', '.edit-task-assigned-to-other-user,#cancel-other-user-task', function() {
+        console.log("edit other users task clicked")
         var element = $('.tasks-assigned-to-other-user-data .task-dueon')
         if (element.hasClass('hidden')) {
             element.removeClass('hidden');
             $('.edit-task-assigned-to-other-user').removeClass('hidden')
-            $('.user-task-edited ').addClass('hidden')
+            $('.other-user-task-edited ').addClass('hidden')
             $(".edit-task-dueon").addClass('hidden');
         } else {
             $('.edit-task-assigned-to-other-user').addClass('hidden')
             element.addClass('hidden');
-            $('.user-task-edited').removeClass('hidden')
+            $('.other-user-task-edited').removeClass('hidden')
             $(".edit-task-dueon").removeClass('hidden');
         }
     });
