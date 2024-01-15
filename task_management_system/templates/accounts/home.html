@@ -1,16 +1,203 @@
-
 {% extends 'base.html' %}
 
 {% block content %}
 {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
         {% endfor %}
-    </ul>
+</ul>
 {% endif %}
 <h1>HOME</h1>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#taskModal" id="createTaskBtn">
+    <a href="{% url 'create_task' %}"> Create Task</a>
+</button>
+
+
 
 <span>Hello, {{request.user}}</span>
 <span><a href="{% url 'logout' %}">Logout</a></span>
+
+<h3>Tasks Created By You</h3>
+<table class="table table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Created On</th>
+            <th>Created By</th>
+            <th></th>
+            <th></th>
+            <!-- Add more headers as needed -->
+        </tr>
+    </thead>
+    <tbody class="task-created-by-user">
+        {% for task in user_tasks %}
+        <tr id="{{ task.id }}">
+            <td class="task-title">{{ task.title }}</td>
+            <td class="task-description">{{ task.description }}</td>
+            <td class="task-category">{{ task.category }}</td>
+            <td class="task-created_on">{{ task.created_on }}</td>
+            <td class="task-created_by">{{ task.created_by }}</td>
+            <td><i class="bi bi-pencil-square edit-task"></i></td>
+            <td><i class="bi bi-trash delete-task"></i></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br>
+<br>
+<div class="all-tasks">
+    <div class="tasks-category-headings">
+        <div id="tasks-assigned-to-user" class="each-task-category-heading">
+            <h3>Tasks assigned to you</h3>
+        </div>
+        <div class="tasks-assigned-to-user-data hidden">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Created On</th>
+                        <th>Assigned By</th>
+                        <th>Status</th>
+                        <th>Due On</th>
+                        <th></th>
+                        <!-- Add more headers as needed -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in tasks_assigned_to_user %}
+                    <tr id="{{ task.task_id }}">
+                        <td class="task-title">{{ task.task_id__title }}</td>
+                        <td class="task-description">{{ task.task_id__description }}</td>
+                        <td class="task-category">{{ task.task_id__task_category__name }}</td>
+                        <td class="task-created_on">{{ task.created_on }}</td>
+                        <td class="task-created_by">{{ task.task_id__created_by__username }}</td>
+
+                        <td class="users-task-status">{{ task.status }}</td>
+                        <td class="edit-task-status hidden">
+                            <select name="task-statuses" id="task-statuses">
+                                <option value="todo">To Do</option>
+                                <option value="in_progress">In Progress</option>
+                                <option value="completed">Completed</option>
+                            </select>
+
+                        </td>
+                        <td class="task-dueon">{{ task.due_on }}</td>
+                        <td><i class="bi bi-pencil-square edit-task-assigned-to-user"></i></td>
+                        <td class="user-task-edited hidden"><button id="save-user-task">Save</button>
+                            <button id="cancel-user-task">Cancel</button>
+                        </td>
+
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+        <div id="tasks-assigned-to-other-user" class="each-task-category-heading">
+            <h3>Tasks assigned to other users</h3>
+        </div>
+        <div class="tasks-assigned-to-other-user-data hidden">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="hidden"></th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Created On</th>
+                        <th>Assigned To</th>
+                        <th>status</th>
+                        <th>Due On</th>
+                        <th></th>
+                        <th></th>
+                        
+                        <!-- Add more headers as needed -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in tasks_assigned_to_user %}
+                    <tr id="{{ task.task_id }}">
+                        <td class="task_assignment_id hidden">{{task.id}}</td>
+                        <td class="task-title">{{ task.task_id__title }}</td>
+                        <td class="task-description">{{ task.task_id__description }}</td>
+                        <td class="task-category">{{ task.task_id__task_category__name }}</td>
+                        <td class="task-created_on">{{ task.created_on }}</td>
+                        <td class="task-assigned_to">{{ task.assigned_to__username }}</td>
+                        <td class="task-status">{{ task.status }}</td>
+                        <td class="edit-task-dueon hidden">
+                            <input type="datetime-local" id="due_on" name="due_on">
+                        </td>
+                        <td class="task-dueon">{{ task.due_on }}</td>
+                        <td><i class="bi bi-pencil-square edit-task-assigned-to-other-user"></i></td>
+                        <td><i class="bi bi-trash delete-task-assigned-to-other-user"></i></td>
+                        <td class="other-user-task-edited hidden"><button id="save-other-user-task">Save</button>
+                            <button id="cancel-other-user-task">Cancel</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div id="assign-task-btn" class="each-task-category-heading">
+            <h3>Assign Task</h3>
+        </div>
+        <div class="assign-task-form hidden">
+            <form id="assignTaskForm">
+                {% csrf_token %}
+                {{ task_assignment_form.as_p }}
+
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+
+        </div>
+    </div>
+    <div class="task-catgeory-data">
+
+
+
+    </div>
+</div>
+<!-- Edit Task Modal -->
+<div class="modal fade" id="editTaskModal" tabindex="-1" role="dialog" aria-labelledby="editTaskModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editTaskModalLabel">Edit Task</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editTaskForm">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="editTitle">Title</label>
+                        <input type="text" class="form-control" id="editTitle" name="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="editDescription">Description</label>
+                        <input type="text" class="form-control" id="editDescription" name="description">
+                    </div>
+                    <div class="form-group">
+                        <label for="editCategory">Task Category</label>
+                        <select class="form-control" id="editCategory" name="task_category">
+                            <!-- Populate options dynamically via JavaScript -->
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 {% endblock content%}
