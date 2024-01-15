@@ -71,6 +71,7 @@
                 <tbody>
                     {% for task in tasks_assigned_to_user %}
                     <tr id="{{ task.task_id }}">
+                        <td class="task_assignment_id hidden">{{task.id}}</td>
                         <td class="task-title">{{ task.task_id__title }}</td>
                         <td class="task-description">{{ task.task_id__description }}</td>
                         <td class="task-category">{{ task.task_id__task_category__name }}</td>
