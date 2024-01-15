@@ -58,9 +58,8 @@ function taskDelete(){
 })
 
 $(document).on('click', '.delete-task-assigned-to-other-user', function() {
-    taskID = $(this).closest('tr').attr('id'); // Get the task ID from the row
+    task_assignment_id = $(this).closest('tr').find('.task_assignment_id').text();
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-    var task_assignment_id = $('.task_assignment_id').text()
 
 
     $.ajax({
@@ -153,32 +152,32 @@ function show_and_hide(){
     
     $(document).on('click', '.edit-task-assigned-to-user,#cancel-user-task', function() {
         console.log("edit users task clicked")
-        var element = $('.users-task-status')
+        var element = $(this).closest('tr').find('.users-task-status')
         if (element.hasClass('hidden')) {
             element.removeClass('hidden');
-            $('.edit-task-assigned-to-user').removeClass('hidden')
-            $('.user-task-edited ').addClass('hidden')
-            $(".edit-task-status").addClass('hidden');
+            $(this).closest('tr').find('.edit-task-assigned-to-user').removeClass('hidden')
+            $(this).closest('tr').find('.user-task-edited ').addClass('hidden')
+            $(this).closest('tr').find(".edit-task-status").addClass('hidden');
         } else {
-            $('.edit-task-assigned-to-user').addClass('hidden')
+            $(this).closest('tr').find('.edit-task-assigned-to-user').addClass('hidden')
             element.addClass('hidden');
-            $('.user-task-edited').removeClass('hidden')
-            $(".edit-task-status").removeClass('hidden');
+            $(this).closest('tr').find('.user-task-edited').removeClass('hidden')
+            $(this).closest('tr').find(".edit-task-status").removeClass('hidden');
         }
     });
     $(document).on('click', '.edit-task-assigned-to-other-user,#cancel-other-user-task', function() {
         console.log("edit other users task clicked")
-        var element = $('.tasks-assigned-to-other-user-data .task-dueon')
+        var element = $(this).closest('tr').find('.tasks-assigned-to-other-user-data .task-dueon')
         if (element.hasClass('hidden')) {
             element.removeClass('hidden');
-            $('.edit-task-assigned-to-other-user').removeClass('hidden')
-            $('.other-user-task-edited ').addClass('hidden')
-            $(".edit-task-dueon").addClass('hidden');
+            $(this).closest('tr').find('.edit-task-assigned-to-other-user').removeClass('hidden')
+            $(this).closest('tr').find('.other-user-task-edited ').addClass('hidden')
+            $(this).closest('tr').find(".edit-task-dueon").addClass('hidden');
         } else {
-            $('.edit-task-assigned-to-other-user').addClass('hidden')
+            $(this).closest('tr').find('.edit-task-assigned-to-other-user').addClass('hidden')
             element.addClass('hidden');
-            $('.other-user-task-edited').removeClass('hidden')
-            $(".edit-task-dueon").removeClass('hidden');
+            $(this).closest('tr').find('.other-user-task-edited').removeClass('hidden')
+            $(this).closest('tr').find(".edit-task-dueon").removeClass('hidden');
         }
     });
     
@@ -210,14 +209,15 @@ function assignTask(){
 function save_task(){
     $(document).on('click', '#save-user-task', function() {
         
-        taskID = $(this).closest('tr').attr('id'); 
+        task_assignment_id = $(this).closest('tr').find('.task_assignment_id').text();
+
         task_status = $(this).closest('tr').find('#task-statuses').val();
         console.log(task_status)
         const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
                 // Submit the form data via AJAX to update the task
         $.ajax({
-            url: `/home/${taskID}/update_user_task/`, // Replace with your endpoint to update the task
+            url: `/home/${task_assignment_id}/update_user_task/`, // Replace with your endpoint to update the task
             method: 'POST',
             data: { 'task_status': task_status },
             headers: { 'X-CSRFToken': csrftoken }, // Include the CSRF token in the headers
@@ -232,15 +232,15 @@ function save_task(){
         });
     });
     $(document).on('click', '#save-other-user-task', function() {
-        
-        taskID = $(this).closest('tr').attr('id'); 
+        task_assignment_id = $(this).closest('tr').find('.task_assignment_id').text();
+        console.log('task_assignment_id:',task_assignment_id)
         due_on = $(this).closest('tr').find('#due_on').val();
         console.log(due_on)
         const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
                 // Submit the form data via AJAX to update the task
         $.ajax({
-            url: `/home/${taskID}/update_other_user_task/`, // Replace with your endpoint to update the task
+            url: `/home/${task_assignment_id}/update_other_user_task/`, // Replace with your endpoint to update the task
             method: 'POST',
             data: { 'due_on': due_on },
             headers: { 'X-CSRFToken': csrftoken }, // Include the CSRF token in the headers

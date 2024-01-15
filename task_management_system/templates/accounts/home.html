@@ -122,7 +122,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for task in tasks_assigned_to_user %}
+                    {% for task in tasks_assigned_by_current_user %}
                     <tr id="{{ task.task_id }}">
                         <td class="task_assignment_id hidden">{{task.id}}</td>
                         <td class="task-title">{{ task.task_id__title }}</td>

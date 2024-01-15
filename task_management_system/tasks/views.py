@@ -98,7 +98,7 @@ def assign_task(request):
                 subject="A Task has been Assigned to You",
                 message="",
                 from_email="gowthambalu447@gmail.com",
-                recipient_list=["gbalu789@gmail.com"],
+                recipient_list=[task_assignment.assigned_to.email],
                 html_message=html_message,
             )
             # Check if the email was sent successfully
@@ -117,9 +117,9 @@ def assign_task(request):
 
 def update_user_task(
     request,
-    task_id,
+    task_assignment_id,
 ):
-    task = get_object_or_404(TaskAssignments, task_id=task_id)
+    task = get_object_or_404(TaskAssignments, id=task_assignment_id)
     print(f"{task=}")
 
     if request.method == "POST":
@@ -141,9 +141,11 @@ def update_user_task(
                 subject="Task Status Update",
                 message="",
                 from_email="gowthambalu447@gmail.com",
-                recipient_list=["gbalu789@gmail.com"],
+                recipient_list=[task.assigned_by.email],
                 html_message=html_message,
             )
+        
+        print("\nUser Task Email Count\n", sent_count)
         
         messages.success(request, "Task Updated successfully.")
 
@@ -156,7 +158,7 @@ def update_other_user_task(
     request,
     task_id,
 ):
-    task = get_object_or_404(TaskAssignments, task_id=task_id)
+    task = get_object_or_404(TaskAssignments, id=task_id)
     print(f"{task=}")
 
     if request.method == "POST":
