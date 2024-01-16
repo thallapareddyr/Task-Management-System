@@ -156,9 +156,9 @@ def update_user_task(
 
 def update_other_user_task(
     request,
-    task_id,
+    task_assignment_id,
 ):
-    task = get_object_or_404(TaskAssignments, id=task_id)
+    task = get_object_or_404(TaskAssignments, id=task_assignment_id)
     print(f"{task=}")
 
     if request.method == "POST":
@@ -167,7 +167,24 @@ def update_other_user_task(
         task.due_on = due_on
         task.save()
         messages.success(request, "Task Updated successfully.")
-
+        # Send Email
+        html_message = render_to_string(
+                "emails/tasks/task_updated.html",
+                {
+                    "name": task.assigned_to.username,  
+                    "task_name": task.task_id.title,  
+                    "updated_due_date": task.due_on,
+                },
+            )
+        sent_count = send_mail(
+                subject="Task Due Date Update",
+                message="",
+                from_email="gowthambalu447@gmail.com",
+                recipient_list=[task.assigned_to.email],
+                html_message=html_message,
+            )
+        
+        print("\nUser Task Email Count\n", sent_count)
     return JsonResponse(
         {"success": False}
     )  # If not a POST request, respond with failure

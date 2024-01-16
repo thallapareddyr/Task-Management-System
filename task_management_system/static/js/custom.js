@@ -167,13 +167,15 @@ function show_and_hide(){
     });
     $(document).on('click', '.edit-task-assigned-to-other-user,#cancel-other-user-task', function() {
         console.log("edit other users task clicked")
-        var element = $(this).closest('tr').find('.tasks-assigned-to-other-user-data .task-dueon')
+        var element = $(this).closest('tr').find('.task-dueon')
         if (element.hasClass('hidden')) {
+            console.log("clicked on cancel")
             element.removeClass('hidden');
             $(this).closest('tr').find('.edit-task-assigned-to-other-user').removeClass('hidden')
             $(this).closest('tr').find('.other-user-task-edited ').addClass('hidden')
             $(this).closest('tr').find(".edit-task-dueon").addClass('hidden');
         } else {
+            
             $(this).closest('tr').find('.edit-task-assigned-to-other-user').addClass('hidden')
             element.addClass('hidden');
             $(this).closest('tr').find('.other-user-task-edited').removeClass('hidden')
@@ -255,3 +257,9 @@ function save_task(){
         });
     });
 }
+
+$(document).ready(function() {
+    $('.each-task-category-heading').click(function() {
+        $(this).toggleClass('arrow-up', !$(this).hasClass('arrow-up'));    
+    });
+});

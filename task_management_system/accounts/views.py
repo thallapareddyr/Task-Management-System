@@ -60,19 +60,27 @@ def homePage(request):
     user_tasks = get_user_tasks(request)
     _tasks_assigned_to_user = tasks_assigned_to_user(request)
     _tasks_assigned_by_current_user = tasks_assigned_by_current_user(request)
+    has_access_to_assign_task = (request.user.groups.filter(name="Admin").exists()) or (
+        request.user.groups.filter(name="Manager").exists()
+    )
+    print(f"\n{request.user.groups.name=}\n")
+    print(f"\n{has_access_to_assign_task=}\n")
     task_assignment_form = TaskAssignmentForm()
     context = {
         "user_tasks": user_tasks,
         "usernames": get_users(request),
-        "task_assignment_form":task_assignment_form,
+        "task_assignment_form": task_assignment_form,
         "tasks_assigned_to_user": _tasks_assigned_to_user,
         "tasks_assigned_by_current_user": _tasks_assigned_by_current_user,
+        "has_access_to_assign_task": has_access_to_assign_task,
     }
     return render(request, "accounts/home.html", context)
+
 
 @login_required(login_url="login")
 def defaultHomePage(request):
     return redirect("home")
+
 
 @login_required(login_url="login")
 def get_users(request):

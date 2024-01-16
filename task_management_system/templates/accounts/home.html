@@ -9,16 +9,22 @@
 </ul>
 {% endif %}
 <h1>HOME</h1>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#taskModal" id="createTaskBtn">
-    <a href="{% url 'create_task' %}"> Create Task</a>
-</button>
+<div class="navigation-bar">
 
+    <span>Hello, {{request.user}}</span>
+    <span><a href="{% url 'logout' %}">Logout</a></span>
 
+</div>
 
-<span>Hello, {{request.user}}</span>
-<span><a href="{% url 'logout' %}">Logout</a></span>
+{% if has_access_to_assign_task %}
 
-<h3>Tasks Created By You</h3>
+<div class="display-flex">
+    <h3>Tasks Created By You</h3>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#taskModal" id="createTaskBtn">
+        <a href="{% url 'create_task' %}"> Create Task</a>
+    </button>
+</div>
+
 <table class="table table-bordered">
     <thead class="thead-dark">
         <tr>
@@ -46,11 +52,12 @@
         {% endfor %}
     </tbody>
 </table>
+{% endif %}
 <br>
 <br>
 <div class="all-tasks">
     <div class="tasks-category-headings">
-        <div id="tasks-assigned-to-user" class="each-task-category-heading">
+        <div id="tasks-assigned-to-user" class="each-task-category-heading arrow-down">
             <h3>Tasks assigned to you</h3>
         </div>
         <div class="tasks-assigned-to-user-data hidden">
@@ -100,9 +107,11 @@
             </table>
 
         </div>
-        <div id="tasks-assigned-to-other-user" class="each-task-category-heading">
+        {% if has_access_to_assign_task %}
+        <div id="tasks-assigned-to-other-user" class="each-task-category-heading arrow-down">
             <h3>Tasks assigned to other users</h3>
         </div>
+
         <div class="tasks-assigned-to-other-user-data hidden">
             <table class="table table-bordered">
                 <thead class="thead-dark">
@@ -117,7 +126,7 @@
                         <th>Due On</th>
                         <th></th>
                         <th></th>
-                        
+
                         <!-- Add more headers as needed -->
                     </tr>
                 </thead>
@@ -145,7 +154,7 @@
                 </tbody>
             </table>
         </div>
-        <div id="assign-task-btn" class="each-task-category-heading">
+        <div id="assign-task-btn" class="each-task-category-heading arrow-down">
             <h3>Assign Task</h3>
         </div>
         <div class="assign-task-form hidden">
@@ -157,6 +166,7 @@
             </form>
 
         </div>
+        {% endif %}
     </div>
     <div class="task-catgeory-data">
 

@@ -15,11 +15,11 @@ class TaskForm(forms.ModelForm):
                 del self.fields[field_name]
 
 class TaskAssignmentForm(forms.ModelForm):
-    status = forms.ChoiceField(choices=TaskAssignments.STATUS_CHOICES)
 
     class Meta:
         model = TaskAssignments
-        fields = ['task_id', 'assigned_to', 'status', 'due_on']
+        fields = ['task_id', 'assigned_to', 'due_on']
+        exclude = ['status']
         widgets = {
             'due_on': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             # You might need to handle formatting or set specific date/time restrictions here
