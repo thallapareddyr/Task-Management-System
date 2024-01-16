@@ -116,17 +116,22 @@ th {
     align-items: center;
 }
 /* Login Form */
-.login-form-container {
+.form-container {
     margin: auto 0;
     position: relative;
     height: 100vh;
 }
-form#login-form {
+form#login-form, form#register-form {
     position: absolute;
     margin: 0 auto;
     top: 40%;
 }
-table.login-form-table tr td:last-child {
+form#register-form {
+    position: absolute;
+    margin: 0 auto;
+    top: 25%;
+}
+table.form-table tr td:last-child {
     padding-left: 10px;
     padding-top: 10px;
 }
