@@ -97,7 +97,7 @@ def assign_task(request):
             sent_count = send_mail(
                 subject="A Task has been Assigned to You",
                 message="",
-                from_email="gowthambalu447@gmail.com",
+                from_email="thallapareddyr@gmail.com",
                 recipient_list=[task_assignment.assigned_to.email],
                 html_message=html_message,
             )
@@ -140,7 +140,7 @@ def update_user_task(
         sent_count = send_mail(
                 subject="Task Status Update",
                 message="",
-                from_email="gowthambalu447@gmail.com",
+                from_email="thallapareddyr@gmail.com",
                 recipient_list=[task.assigned_by.email],
                 html_message=html_message,
             )
@@ -179,7 +179,7 @@ def update_other_user_task(
         sent_count = send_mail(
                 subject="Task Due Date Update",
                 message="",
-                from_email="gowthambalu447@gmail.com",
+                from_email="thallapareddyr@gmail.com",
                 recipient_list=[task.assigned_to.email],
                 html_message=html_message,
             )
