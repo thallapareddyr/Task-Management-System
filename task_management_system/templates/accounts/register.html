@@ -1,19 +1,36 @@
-Register
+{% extends 'base.html' %}
 
-<form method="POST" action="">
+{% block content %}
+
+<div class="form-container">
+<form method="POST" action="" id="register-form">
+    <h1>Register</h1> 
     {% csrf_token %}
-    {{form.username.label}}
-    {{form.username}}
-    <br>
-    {{form.email.label}}
-    {{form.email}}
-    <br>
-    {{form.password1.label}}
-    {{form.password1}}
-    <br>
-    {{form.password2.label}}
-    {{form.password2}}
-    <input type="submit" name="Create User">
+    <table class="form-table">
+        <tr>
+            <td>{{form.username.label}}</td>
+            <td> {{form.username}}</td>
+        </tr>
+        <tr>
+            <td>{{form.email.label}}</td>
+            <td>{{form.email}}</td>
+        </tr>
+        <tr>
+            <td>{{form.password1.label}}</td>
+            <td>{{form.password1}}</td>
+        </tr>
+        <tr>
+            <td>{{form.password2.label}}</td>
+            <td>{{form.password2}}</td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" name="Create User">
+            </td>
+        </tr>
+    </table>
+   
+    
     {{form.errors}}
     <div class="sign-up">
         already have an account?
@@ -21,3 +38,5 @@ Register
     </div>
 
 </form>
+</div>
+{% endblock %}
