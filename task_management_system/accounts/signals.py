@@ -7,5 +7,5 @@ from django.contrib.auth.models import User, Group
 def assign_employee_group(sender, instance, created, **kwargs):
     if created:
         employee_group = Group.objects.get(name='Employee')
-        instance.save()  # Save the user first to ensure it has an id
+        instance.save()
         instance.groups.add(employee_group)

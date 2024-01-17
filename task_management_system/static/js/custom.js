@@ -11,7 +11,7 @@ var taskId = 0;
 // Fetch task categories and populate the dropdown
 function fetchTaskCategories() {
     $.ajax({
-        url: '/home/get_task_categories/', // Replace with your endpoint to fetch categories
+        url: '/home/get_task_categories/', 
         method: 'GET',
         success: function(response) {
             const categories = response.categories;
@@ -27,7 +27,7 @@ function fetchTaskCategories() {
                 );
             });
 
-            // Trigger modal after categories are loaded (if needed)
+            
             $('#editTaskModal').modal('show');
         },
         error: function(error) {
@@ -39,13 +39,13 @@ function fetchTaskCategories() {
 
 function taskDelete(){
     $(document).on('click', '.delete-task', function() {
-        taskID = $(this).closest('tr').attr('id'); // Get the task ID from the row
+        taskID = $(this).closest('tr').attr('id'); 
         const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
         $.ajax({
-            url: `/home/${taskID}/delete`, // Replace with your endpoint to fetch task details
+            url: `/home/${taskID}/delete`, 
             method: 'DELETE',
-            headers: { 'X-CSRFToken': csrftoken }, // Include the CSRF token in the headers
+            headers: { 'X-CSRFToken': csrftoken },
 
             success: function(response) {
                 window.location.href = '/home';
@@ -63,9 +63,9 @@ $(document).on('click', '.delete-task-assigned-to-other-user', function() {
 
 
     $.ajax({
-        url: `/home/${task_assignment_id}/delete_task_assigned_to_user`, // Replace with your endpoint to fetch task details
+        url: `/home/${task_assignment_id}/delete_task_assigned_to_user`, 
         method: 'DELETE',
-        headers: { 'X-CSRFToken': csrftoken }, // Include the CSRF token in the headers
+        headers: { 'X-CSRFToken': csrftoken }, 
 
         success: function(response) {
             window.location.href = '/home';
@@ -81,18 +81,17 @@ $(document).on('click', '.delete-task-assigned-to-other-user', function() {
 function taskEdit(){
 
 
-// Trigger modal and populate dropdown on click of edit icon
 $(document).on('click', '.edit-task', function() {
-    taskID = $(this).closest('tr').attr('id'); // Get the task ID from the row
+    taskID = $(this).closest('tr').attr('id'); 
     console.log(taskID)
     $.ajax({
-        url: `/home/${taskID}/details`, // Replace with your endpoint to fetch task details
+        url: `/home/${taskID}/details`, 
         method: 'GET',
         success: function(response) {
             $('#editTitle').val(response.title);
             $('#editDescription').val(response.description);
             $('#editDueOn').val(response.due_on);
-            fetchTaskCategories(); // Fetch categories and populate the dropdown
+            fetchTaskCategories();
         },
         error: function(error) {
             console.error('Error fetching task details: ', error);
@@ -102,20 +101,18 @@ $(document).on('click', '.edit-task', function() {
 
 
 });
-// Handle form submission
+
 $('#editTaskForm').submit(function(event) {
     event.preventDefault();
     var formData = $(this).serialize();
-    // Submit the form data via AJAX to update the task
+
     $.ajax({
-        url: `/home/${taskID}/update/`, // Replace with your endpoint to update the task
+        url: `/home/${taskID}/update/`, 
         method: 'POST',
         data: formData,
         success: function(response) {
             $('#editTaskModal').modal('hide');
             window.location.href = '/home';
-            // Handle success, e.g., update the table with the new data
-            // You may need to refresh the task table or update the specific row
         },
         error: function(error) {
             console.error('Error updating task: ', error);
@@ -190,16 +187,13 @@ function assignTask(){
     $('#assignTaskForm').submit(function(event) {
         event.preventDefault();
         var formData = $(this).serialize();
-        // Submit the form data via AJAX to update the task
         $.ajax({
-            url: `/home/assign_task/`, // Replace with your endpoint to update the task
+            url: `/home/assign_task/`, 
             method: 'POST',
             data: formData,
             success: function(response) {
                 $('#editTaskModal').modal('hide');
                 window.location.href = '/home';
-                // Handle success, e.g., update the table with the new data
-                // You may need to refresh the task table or update the specific row
             },
             error: function(error) {
                 console.error('Error updating task: ', error);
@@ -216,17 +210,13 @@ function save_task(){
         task_status = $(this).closest('tr').find('#task-statuses').val();
         console.log(task_status)
         const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-                // Submit the form data via AJAX to update the task
         $.ajax({
-            url: `/home/${task_assignment_id}/update_user_task/`, // Replace with your endpoint to update the task
+            url: `/home/${task_assignment_id}/update_user_task/`, 
             method: 'POST',
             data: { 'task_status': task_status },
-            headers: { 'X-CSRFToken': csrftoken }, // Include the CSRF token in the headers
+            headers: { 'X-CSRFToken': csrftoken },
             success: function(response) {
                 window.location.href = '/home';
-                // Handle success, e.g., update the table with the new data
-                // You may need to refresh the task table or update the specific row
             },
             error: function(error) {
                 console.error('Error updating task: ', error);
@@ -239,17 +229,13 @@ function save_task(){
         due_on = $(this).closest('tr').find('#due_on').val();
         console.log(due_on)
         const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-                // Submit the form data via AJAX to update the task
         $.ajax({
-            url: `/home/${task_assignment_id}/update_other_user_task/`, // Replace with your endpoint to update the task
+            url: `/home/${task_assignment_id}/update_other_user_task/`, 
             method: 'POST',
             data: { 'due_on': due_on },
-            headers: { 'X-CSRFToken': csrftoken }, // Include the CSRF token in the headers
+            headers: { 'X-CSRFToken': csrftoken }, 
             success: function(response) {
                 window.location.href = '/home';
-                // Handle success, e.g., update the table with the new data
-                // You may need to refresh the task table or update the specific row
             },
             error: function(error) {
                 console.error('Error updating task: ', error);

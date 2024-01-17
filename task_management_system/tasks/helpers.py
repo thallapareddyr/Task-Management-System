@@ -9,8 +9,7 @@ def get_user_tasks(user_instance):
             "id": task.id,
             'title': task.title,
             'description': task.description,
-            'created_on': task.created_on.strftime('%Y-%m-%d %H:%M:%S'),  # Format as needed
-            # 'due_on': task.due_on.strftime('%Y-%m-%d %H:%M:%S'),  # Format as needed
+            'created_on': task.created_on.strftime('%Y-%m-%d %H:%M:%S'),
             'category': task.task_category.name,
             'created_by': task.created_by
         }
