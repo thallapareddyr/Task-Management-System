@@ -6,22 +6,21 @@ This Task Management System is a web application built using Django that facilit
 
 - **User Management:**
   - Registration for regular users and administrators.
-  - Two user types: regular users and administrators with varying access rights.
-
+  - Three user types: Admin and Manager have access to create, assign, and modify the tasks
 - **Task Management:**
   - Create, assign, and track tasks.
   - Task categories for better organization and filtering.
   - Status tracking for tasks (e.g., pending, completed, overdue).
 
 - **Email Notifications:**
-  - Automated email notifications for task assignments, updates, and reminders for approaching due dates.
+  - Automated email notifications for task assignments, updates, and changes in due dates.
 
 ## Technologies Used
 
 - **Backend:** Django, Python
 - **Frontend:** HTML, CSS, JavaScript
 - **Database:** SQLite (for local development)
-- **Deployment:** PythonAnywhere/Heroku
+- **Deployment:** AWS EC2
 
 ## Project Structure
 
@@ -34,8 +33,7 @@ This Task Management System is a web application built using Django that facilit
 
 1. **Clone the repository:**
    ```
-   git clone <repository_url>
-   cd task-management-system
+   git clone https://github.com/thallapareddyr/Task-Management-System.git
    ```
 
 2. **Create a virtual environment:**
@@ -52,7 +50,6 @@ This Task Management System is a web application built using Django that facilit
 
 4. **Run migrations:**
    ```
-   python manage.py makemigrations
    python manage.py migrate
    ```
 
@@ -77,6 +74,14 @@ This Task Management System is a web application built using Django that facilit
 - [Your Name](https://github.com/your_username)
 
 ## Acknowledgements
+
+I would like to acknowledge the following sources that were instrumental in the development of this project:
+
+- [Django Documentation](https://docs.djangoproject.com/): I referred to the official Django documentation for guidance on web development using Django.
+
+- AWS EC2 Instance Creation: The process of creating EC2 instances on AWS was guided by the AWS documentation and tutorials available on the [AWS website](https://aws.amazon.com/).
+
+These references played a significant role in shaping certain aspects of the project. I am grateful for the valuable insights provided by these resources.
 
 
 ## License
