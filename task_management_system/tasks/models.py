@@ -41,3 +41,21 @@ class TaskAssignments(models.Model):
 
     due_on = models.DateTimeField()
     created_on = models.DateTimeField(default=timezone.now)
+
+
+class EmailLogs(models.Model):
+    EMAIL_TYPE = [
+        ("task_assigned", "Task Assigned"),
+        ("task_status_updated", "Task Status Updated"),
+        ("task_due_date_updated", "Task Due Date Updated"),
+    ]
+    SENT_STATUS = [
+        ("success", "Success"),
+        ("failed", "Failed"),
+    ]
+    task_assignment_id = models.ForeignKey(TaskAssignments, on_delete=models.CASCADE)
+    sent_to = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="email_sent_to"
+    )
+    email_type = models.CharField(max_length=30, choices=EMAIL_TYPE)
+    status = models.CharField(max_length=30, choices=SENT_STATUS)
