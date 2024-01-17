@@ -32,12 +32,9 @@ def get_task_categories(request):
 def task_details(request, task_id):
     task = get_object_or_404(Tasks, id=task_id)
 
-    # Assuming you want specific fields to be sent to the frontend
     task_details = {
         "title": task.title,
         "description": task.description,
-        # 'due_on': task.due_on.strftime("%Y-%m-%dT%H:%M"),  # Format date as ISO 8601
-        # Add other fields as needed
     }
 
     return JsonResponse(task_details)
@@ -51,14 +48,14 @@ def update_task(request, task_id):
         if form.is_valid():
             form.save()
             messages.success(request, "Task Edited successfully.")
-            return JsonResponse({"success": True})  # Respond with success
+            return JsonResponse({"success": True})  
         else:
             messages.error(request, "Task Edit Failed.")
-            return JsonResponse({"success": False})  # Respond with failure
+            return JsonResponse({"success": False})  
 
     return JsonResponse(
         {"success": False}
-    )  # If not a POST request, respond with failure
+    ) 
 
 
 def delete_task(request, task_id):
@@ -68,10 +65,10 @@ def delete_task(request, task_id):
         task.delete()
 
         messages.success(request, "Task deleted successfully.")
-        return JsonResponse({"success": True})  # Respond with success
+        return JsonResponse({"success": True}) 
     else:
         messages.error(request, "Task Delete Failed.")
-        return JsonResponse({"success": False})  # Respond with failure
+        return JsonResponse({"success": False})
 
 
 def assign_task(request):
@@ -82,7 +79,7 @@ def assign_task(request):
             task_assignment = form.save(commit=False)
             task_assignment.assigned_by = (
                 request.user
-            )  # Set the assigned_by user to the current logged-in user
+            )
             task_assigned = task_assignment.save()
             html_message = render_to_string(
                 "emails/tasks/task_assigned.html",
@@ -102,7 +99,7 @@ def assign_task(request):
                 recipient_list=[task_assignment.assigned_to.email],
                 html_message=html_message,
             )
-            # Check if the email was sent successfully
+           
             email_status = "success" if sent_count > 0 else "failed"
             if sent_count > 0:
                 print("\n\n Email sent successfully!", sent_count)
@@ -115,8 +112,6 @@ def assign_task(request):
                 email_type="task_assigned",
                 status=email_status,
             )
-
-            # Check if the email was sent successfully
             if sent_count > 0:
                 print("\n\n Email sent successfully!", sent_count)
             else:
@@ -173,7 +168,7 @@ def update_user_task(
 
     return JsonResponse(
         {"success": False}
-    )  # If not a POST request, respond with failure
+    )
 
 
 def update_other_user_task(
@@ -216,7 +211,7 @@ def update_other_user_task(
         print("\nUser Task Email Count\n", sent_count)
     return JsonResponse(
         {"success": False}
-    )  # If not a POST request, respond with failure
+    )
 
 
 def delete_task_assigned_to_user(request, task_assignment_id):
@@ -226,7 +221,7 @@ def delete_task_assigned_to_user(request, task_assignment_id):
         task.delete()
 
         messages.success(request, "Task Assigned deleted successfully.")
-        return JsonResponse({"success": True})  # Respond with success
+        return JsonResponse({"success": True})
     else:
         messages.error(request, "Task Assigned Delete Failed.")
-        return JsonResponse({"success": False})  # Respond with failure
+        return JsonResponse({"success": False})

@@ -12,11 +12,11 @@ main{
     flex: 1;
 }
 a {
-    color: #fed188; /* Link color (light orange) */
+    color: #fed188; 
 }
 
 a:hover {
-    color: #ffc876; /* Hover color for links (darker orange) */
+    color: #ffc876; 
 }
 button a{
     color: white;
@@ -38,8 +38,8 @@ li.success {
     color: aquamarine;
 }
 footer {
-    background: #333; /* Example background color for the footer */
-    color: #fff; /* Example text color for the footer */
+    background: #333; 
+    color: #fff; 
     padding: 10px;
     text-align: center;
     position: relative;
@@ -55,19 +55,18 @@ footer {
 }
 .arrow-down::after,
 .arrow-up::after {
-    content: "\25BC"; /* Unicode character for down arrow */
+    content: "\25BC"; 
     position: absolute;
     top: 33%;
     right: 2%;
-    transition: transform 0.3s ease; /* Smooth transition for arrow rotation */
+    transition: transform 0.3s ease; 
 }
 
 .arrow-up::after {
-    content: "\25B2"; /* Unicode character for up arrow */
-    transform: rotate(180deg); /* Initially rotate the arrow for "up" state */
+    content: "\25B2"; 
+    transform: rotate(180deg); 
 }
 
-/* Add the class when "arrow-up" class is present */
 .each-task-category-heading.arrow-up::after {
     transform: rotate(0deg);
 }
@@ -82,19 +81,19 @@ table {
     width: 80%;
     margin: 20px auto;
     border-collapse: collapse;
-    background: rgba(255, 255, 255, 0.1); /* Table background color */
-    border: 2px solid #fff; /* Table border color */
-    color: #fff; /* Table text color */
+    background: rgba(255, 255, 255, 0.1); 
+    border: 2px solid #fff;
+    color: #fff; 
 }
 
 th, td {
     padding: 10px;
     text-align: left;
-    border-bottom: 1px solid #fff; /* Table border color for rows */
+    border-bottom: 1px solid #fff; 
 }
 
 th {
-    background: rgba(255, 255, 255, 0.2); /* Header background color */
+    background: rgba(255, 255, 255, 0.2); 
 }
 /* Navigation Bar */
 .navigation-bar {
