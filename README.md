@@ -29,6 +29,9 @@ This Task Management System is a web application built using Django that facilit
 - **`/static`:** CSS, JS, and other static files.
 - **`/scripts`:** Scripts for automated tasks or setup.
 
+## ER Diagram
+![TaskManagementSystem ER Diagram](https://github.com/thallapareddyr/Task-Management-System/assets/149210091/8b3683ce-2720-4636-8600-17d270bcc144)
+
 ## Setup Instructions
 
 1. **Clone the repository:**
@@ -71,7 +74,7 @@ This Task Management System is a web application built using Django that facilit
 
 ## Authors
 
-- [Your Name](https://github.com/your_username)
+- [Thallapa Rahul](https://github.com/thallapareddyr)
 
 ## Acknowledgements
 
